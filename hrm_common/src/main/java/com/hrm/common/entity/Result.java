@@ -59,6 +59,12 @@ public class Result {
     public static Result FAIL() {
         return new Result(ResultCode.FAIL);
     }
+    public static Result FAIL(String msg) {
+        Result result = new Result(ResultCode.FAIL);
+        result.setMessage(msg);
+        return result;
+    }
+
 
     public boolean isSuccess() {
         return success;
