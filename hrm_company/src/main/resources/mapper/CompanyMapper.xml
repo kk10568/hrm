@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.company.mapper.CompanyMapper">
+    <resultMap id="BaseResultMap" type="com.hrm.model.company.entity.Company">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
+        <result column="version" jdbcType="VARCHAR" property="version" />
+        <result column="renewal_date" jdbcType="TIMESTAMP" property="renewalDate" />
+        <result column="expiration_date" jdbcType="TIMESTAMP" property="expirationDate" />
+        <result column="company_area" jdbcType="VARCHAR" property="companyArea" />
+        <result column="business_license_id" jdbcType="VARCHAR" property="businessLicenseId" />
+        <result column="legal_representative" jdbcType="VARCHAR" property="legalRepresentative" />
+        <result column="company_phone" jdbcType="VARCHAR" property="companyPhone" />
+        <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
+        <result column="company_size" jdbcType="VARCHAR" property="companySize" />
+        <result column="industry" jdbcType="VARCHAR" property="industry" />
+        <result column="audit_state" jdbcType="VARCHAR" property="auditState" />
+        <result column="state" jdbcType="TINYINT" property="state" />
+        <result column="balance" jdbcType="DOUBLE" property="balance" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </resultMap>
+    <insert id="insert" parameterType="company">
+        insert into co_company (id, name, manager_id,
+        version, renewal_date,expiration_date,
+        company_area, company_address,business_license_id,
+        legal_representative, company_phone, mailbox,
+        company_size, industry, remarks,
+        audit_state,state, balance, create_time)
+        values (#{id},#{name},#{managerId},
+        #{version},#{renewalDate},#{expirationDate},
+        #{companyArea},#{companyAddress},#{businessLicenseId},
+        #{legalRepresentative},#{companyPhone},#{mailbox},
+        #{companySize},#{industry},#{remarks},
+        #{auditState},#{state},#{balance},#{createTime})
+    </insert>
+
+    <delete id="deleteById">
+        delete from co_company where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="company">
+        update co_company
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="managerId != null">
+                manager_id = #{managerId,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="renewalDate != null">
+                renewal_date = #{renewalDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expirationDate != null">
+                expiration_date = #{expirationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="companyArea != null">
+                company_area = #{companyArea,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLicenseId != null">
+                business_license_id = #{businessLicenseId,jdbcType=VARCHAR},
+            </if>
+            <if test="legalRepresentative != null">
+                legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
+            </if>
+            <if test="companyPhone != null">
+                company_phone = #{companyPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="mailbox != null">
+                mailbox = #{mailbox,jdbcType=VARCHAR},
+            </if>
+            <if test="companySize != null">
+                company_size = #{companySize,jdbcType=VARCHAR},
+            </if>
+            <if test="industry != null">
+                industry = #{industry,jdbcType=VARCHAR},
+            </if>
+            <if test="auditState != null">
+                audit_state = #{auditState,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=TINYINT},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=DOUBLE},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="companyAddress != null">
+                company_address = #{companyAddress,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="remarks != null">
+                remarks = #{remarks,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    
+    <select id="findById" resultMap="BaseResultMap">
+        select  id, name, manager_id, version, renewal_date, expiration_date, company_area, company_address, business_license_id, legal_representative, company_phone, mailbox, company_size, industry, remarks, audit_state, state, balance, create_time
+        from co_company
+        where id=#{id}
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select id, name, manager_id, version, renewal_date, expiration_date, company_area, company_address, business_license_id, legal_representative, company_phone, mailbox, company_size, industry, remarks, audit_state, state, balance, create_time
+        from co_company
+    </select>
+</mapper>
