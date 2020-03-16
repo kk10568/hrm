@@ -11,7 +11,7 @@ public class Department implements Serializable {
 
     private String companyId;
 
-    private String parentId;
+    private String pid;
 
     private String name;
 
@@ -45,12 +45,12 @@ public class Department implements Serializable {
         this.companyId = companyId == null ? null : companyId.trim();
     }
 
-    public String getParentId() {
-        return parentId;
+    public String getPid() {
+        return pid;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId == null ? null : parentId.trim();
+    public void setPid(String pid) {
+        this.pid = pid == null ? null : pid.trim();
     }
 
     public String getName() {
