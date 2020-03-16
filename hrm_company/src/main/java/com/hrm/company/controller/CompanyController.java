@@ -15,9 +15,9 @@ import java.util.Date;
  * @author: Mr.DAMO
  * @create: 2020-03-14 18:55
  **/
+@CrossOrigin
 @RestController
 @RequestMapping("/company")
-@CrossOrigin
 public class CompanyController {
     @Autowired
     private CompanyServerImpl companyServer;

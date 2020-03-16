@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hrm.company.mapper.DepartmentMapper">
-    <select id="findById" parameterType="java.lang.String" >
+    <resultMap id="BaseResultMap" type="com.hrm.model.company.entity.Department">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="company_id" jdbcType="VARCHAR" property="companyId" />
+        <result column="pid" jdbcType="VARCHAR" property="pid" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="manager" jdbcType="VARCHAR" property="manager" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
+    </resultMap>
+    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         id, company_id, pid, name, code, manager, introduce, create_time, manager_id
         from co_department
         where id = #{id,jdbcType=VARCHAR}
     </select>
-    <select id="findAll" >
+    <select id="findAll" resultMap="BaseResultMap">
         select
-id, company_id, pid, name, code, manager, introduce, create_time, manager_id        from co_department
+        id, company_id, pid, name, code, manager, introduce, create_time, manager_id
+        from co_department
         where company_id=#{companyId}
     </select>
     <delete id="deleteById" parameterType="java.lang.String">
@@ -17,14 +28,14 @@ id, company_id, pid, name, code, manager, introduce, create_time, manager_id    
     where id = #{id,jdbcType=VARCHAR}
   </delete>
     <insert id="insert" parameterType="com.hrm.model.company.entity.Department">
-    insert into co_department (id, company_id, parent_id,
-      name, code, category,
-      manager_id, city, create_time,
-      manager, introduce)
-    values (#{id,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR},
-      #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR},
-      #{managerId,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-      #{manager,jdbcType=VARCHAR}, #{introduce,jdbcType=LONGVARCHAR})
+    insert into co_department (id, company_id, pid,
+      name, code, manager,
+      create_time, manager_id, introduce
+      )
+    values (#{id,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{manager,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{managerId,jdbcType=VARCHAR}, #{introduce,jdbcType=LONGVARCHAR}
+      )
   </insert>
     <insert id="insertSelective" parameterType="com.hrm.model.company.entity.Department">
         insert into co_department
@@ -35,8 +46,8 @@ id, company_id, pid, name, code, manager, introduce, create_time, manager_id    
             <if test="companyId != null">
                 company_id,
             </if>
-            <if test="parentId != null">
-                parent_id,
+            <if test="pid != null">
+                pid,
             </if>
             <if test="name != null">
                 name,
@@ -44,20 +55,14 @@ id, company_id, pid, name, code, manager, introduce, create_time, manager_id    
             <if test="code != null">
                 code,
             </if>
-            <if test="category != null">
-                category,
-            </if>
-            <if test="managerId != null">
-                manager_id,
-            </if>
-            <if test="city != null">
-                city,
+            <if test="manager != null">
+                manager,
             </if>
             <if test="createTime != null">
                 create_time,
             </if>
-            <if test="manager != null">
-                manager,
+            <if test="managerId != null">
+                manager_id,
             </if>
             <if test="introduce != null">
                 introduce,
@@ -70,8 +75,8 @@ id, company_id, pid, name, code, manager, introduce, create_time, manager_id    
             <if test="companyId != null">
                 #{companyId,jdbcType=VARCHAR},
             </if>
-            <if test="parentId != null">
-                #{parentId,jdbcType=VARCHAR},
+            <if test="pid != null">
+                #{pid,jdbcType=VARCHAR},
             </if>
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
@@ -79,20 +84,14 @@ id, company_id, pid, name, code, manager, introduce, create_time, manager_id    
             <if test="code != null">
                 #{code,jdbcType=VARCHAR},
             </if>
-            <if test="category != null">
-                #{category,jdbcType=VARCHAR},
-            </if>
-            <if test="managerId != null">
-                #{managerId,jdbcType=VARCHAR},
-            </if>
-            <if test="city != null">
-                #{city,jdbcType=VARCHAR},
+            <if test="manager != null">
+                #{manager,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="manager != null">
-                #{manager,jdbcType=VARCHAR},
+            <if test="managerId != null">
+                #{managerId,jdbcType=VARCHAR},
             </if>
             <if test="introduce != null">
                 #{introduce,jdbcType=LONGVARCHAR},
@@ -105,8 +104,8 @@ id, company_id, pid, name, code, manager, introduce, create_time, manager_id    
             <if test="companyId != null">
                 company_id = #{companyId,jdbcType=VARCHAR},
             </if>
-            <if test="parentId != null">
-                parent_id = #{parentId,jdbcType=VARCHAR},
+            <if test="pid != null">
+                pid = #{pid,jdbcType=VARCHAR},
             </if>
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
@@ -114,20 +113,14 @@ id, company_id, pid, name, code, manager, introduce, create_time, manager_id    
             <if test="code != null">
                 code = #{code,jdbcType=VARCHAR},
             </if>
-            <if test="category != null">
-                category = #{category,jdbcType=VARCHAR},
-            </if>
-            <if test="managerId != null">
-                manager_id = #{managerId,jdbcType=VARCHAR},
-            </if>
-            <if test="city != null">
-                city = #{city,jdbcType=VARCHAR},
+            <if test="manager != null">
+                manager = #{manager,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="manager != null">
-                manager = #{manager,jdbcType=VARCHAR},
+            <if test="managerId != null">
+                manager_id = #{managerId,jdbcType=VARCHAR},
             </if>
             <if test="introduce != null">
                 introduce = #{introduce,jdbcType=LONGVARCHAR},
@@ -137,16 +130,14 @@ id, company_id, pid, name, code, manager, introduce, create_time, manager_id    
     </update>
 
     <update id="updateByPrimaryKey" parameterType="com.hrm.model.company.entity.Department">
-    update co_department
+   update co_department
     set company_id = #{companyId,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
-      category = #{category,jdbcType=VARCHAR},
-      manager_id = #{managerId,jdbcType=VARCHAR},
-      city = #{city,jdbcType=VARCHAR},
+      manager = #{manager,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      manager = #{manager,jdbcType=VARCHAR}
+      manager_id = #{managerId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

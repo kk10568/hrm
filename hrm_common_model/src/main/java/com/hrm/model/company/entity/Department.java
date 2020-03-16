@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 //组织架构实体类
 public class Department implements Serializable {
-    private static final long serialVersionUID = 1775802237830665886L;
+    private static final long serialVersionUID = -1892811948797702393L;
     private String id;
 
     private String companyId;
