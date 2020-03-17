@@ -23,8 +23,8 @@
             </javaTypeResolver>
 
             <!-- targetProject:生成PO类的位置 -->
-            <javaModelGenerator targetPackage="com.hrm.company.entity"
-                                targetProject=".\hrm_company\src\main\java\">
+            <javaModelGenerator targetPackage="com.hrm.system.entity"
+                                targetProject=".\hrm_system\src\main\java\">
                 <!-- enableSubPackagcees:是否让schema作为包的后缀 -->
                 <property name="enableSubPackages" value="false" />
                 <!-- 从数据库返回的值被清理前后的空格 -->
@@ -32,25 +32,59 @@
             </javaModelGenerator>
             <!-- targetProject:mapper映射文件生成的位置 -->
             <sqlMapGenerator targetPackage="AutoMapper"
-                             targetProject=".\hrm_company\src\main\resources">
+                             targetProject=".\hrm_system\src\main\resources">
                 <!-- enableSubPackages:是否让schema作为包的后缀 -->
                 <property name="enableSubPackages" value="false" />
             </sqlMapGenerator>
             <!-- targetPackage：mapper接口生成的位置 -->
             <javaClientGenerator type="XMLMAPPER"
-                                 targetPackage="com.hrm.company.mapper"
-                                 targetProject=".\hrm_company\src\main\java\">
+                                 targetPackage="com.hrm.system.autoMapper"
+                                 targetProject=".\hrm_system\src\main\java\">
                 <!-- enableSubPackages:是否让schema作为包的后缀 -->
                 <property name="enableSubPackages" value="false" />
             </javaClientGenerator>
             <!-- 指定数据库表 -->
-            <table tableName="bs_user"
+            <table tableName="pe_permission"
              enableCountByExample="false"
              enableDeleteByExample="false"
              enableSelectByExample="false"
              enableUpdateByExample="false">
              <property  name="useActualColumnNames"  value="false" />
              </table>
-
+             <table tableName="pe_permission_api"
+             enableCountByExample="false"
+             enableDeleteByExample="false"
+             enableSelectByExample="false"
+             enableUpdateByExample="false">
+             <property  name="useActualColumnNames"  value="false" />
+             </table>
+             <table tableName="pe_permission_menu"
+             enableCountByExample="false"
+             enableDeleteByExample="false"
+             enableSelectByExample="false"
+             enableUpdateByExample="false">
+             <property  name="useActualColumnNames"  value="false" />
+             </table>
+             <table tableName="pe_permission_point"
+             enableCountByExample="false"
+             enableDeleteByExample="false"
+             enableSelectByExample="false"
+             enableUpdateByExample="false">
+             <property  name="useActualColumnNames"  value="false" />
+             </table>
+             <table tableName="pe_role"
+             enableCountByExample="false"
+             enableDeleteByExample="false"
+             enableSelectByExample="false"
+             enableUpdateByExample="false">
+             <property  name="useActualColumnNames"  value="false" />
+             </table>
+              <table tableName="pe_user"
+              enableCountByExample="false"
+              enableDeleteByExample="false"
+              enableSelectByExample="false"
+              enableUpdateByExample="false">
+              <property  name="useActualColumnNames"  value="false" />
+              </table>
         </context>
     </generatorConfiguration>

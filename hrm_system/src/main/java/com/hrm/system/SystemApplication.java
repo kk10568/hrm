@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author: Mr.DAMO
  * @create: 2020-03-14 17:49
  **/
+//这里设置(scanBasePackages = "com.hrm")是为了能读取在hrm_common项目中
+// 设置异常处理器，将包扫描扩大到整个com.hrm
 @SpringBootApplication(scanBasePackages = "com.hrm")
 @EnableTransactionManagement(proxyTargetClass = true)
 public class SystemApplication {

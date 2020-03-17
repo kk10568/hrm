@@ -1,6 +1,7 @@
 package com.hrm.company.controller;
 
 import com.hrm.common.entity.Result;
+import com.hrm.common.utils.IdWorker;
 import com.hrm.company.service.impl.CompanyServiceImpl;
 import com.hrm.model.company.entity.Company;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ import java.util.Date;
 public class CompanyController {
     @Autowired
     private CompanyServiceImpl companyService;
-
+    @Autowired
+    private IdWorker idWorker;
     @RequestMapping("/insert")
     public Result insertCompany() {
         Company company = new Company();
-        company.setId("1");
+        //或者使用String.valueOf(idWorker.nextId())
+        company.setId(idWorker.nextId()+"");
         company.setName("达摩");
         company.setManagerId("admin");
         company.setState(1);

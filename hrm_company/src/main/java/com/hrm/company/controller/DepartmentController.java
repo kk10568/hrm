@@ -10,6 +10,7 @@ import com.hrm.model.company.entity.response.DeptListResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +33,9 @@ public class DepartmentController {
     public Result insert(@RequestBody Department recover) {
         //目前企业id为1后面解决
         recover.setCompanyId("1");
+        //或者使用String.valueOf(idWorker.nextId())
         recover.setId(idWorker.nextId()+"");
+        recover.setCreateTime(new Date());
         int insert = departmentService.insert(recover);
         if (insert > 0) {
             return Result.SUCCESS();

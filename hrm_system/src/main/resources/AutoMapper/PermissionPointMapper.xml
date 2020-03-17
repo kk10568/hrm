@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.system.autoMapper.PermissionPointMapper">
+  <resultMap id="BaseResultMap" type="com.hrm.system.entity.PePermissionPoint">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="point_class" jdbcType="VARCHAR" property="pointClass" />
+    <result column="point_icon" jdbcType="VARCHAR" property="pointIcon" />
+    <result column="point_status" jdbcType="INTEGER" property="pointStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, point_class, point_icon, point_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pe_permission_point
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from pe_permission_point
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hrm.system.entity.PePermissionPoint">
+    insert into pe_permission_point (id, point_class, point_icon, 
+      point_status)
+    values (#{id,jdbcType=VARCHAR}, #{pointClass,jdbcType=VARCHAR}, #{pointIcon,jdbcType=VARCHAR}, 
+      #{pointStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hrm.system.entity.PePermissionPoint">
+    insert into pe_permission_point
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pointClass != null">
+        point_class,
+      </if>
+      <if test="pointIcon != null">
+        point_icon,
+      </if>
+      <if test="pointStatus != null">
+        point_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pointClass != null">
+        #{pointClass,jdbcType=VARCHAR},
+      </if>
+      <if test="pointIcon != null">
+        #{pointIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="pointStatus != null">
+        #{pointStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.system.entity.PePermissionPoint">
+    update pe_permission_point
+    <set>
+      <if test="pointClass != null">
+        point_class = #{pointClass,jdbcType=VARCHAR},
+      </if>
+      <if test="pointIcon != null">
+        point_icon = #{pointIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="pointStatus != null">
+        point_status = #{pointStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.system.entity.PePermissionPoint">
+    update pe_permission_point
+    set point_class = #{pointClass,jdbcType=VARCHAR},
+      point_icon = #{pointIcon,jdbcType=VARCHAR},
+      point_status = #{pointStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

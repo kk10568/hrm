@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.system.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.hrm.model.system.entity.User">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="role" jdbcType="VARCHAR" property="role"/>
+        <result column="enable_state" jdbcType="INTEGER" property="enableState"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="department_id" jdbcType="VARCHAR" property="departmentId"/>
+        <result column="time_of_entry" jdbcType="TIMESTAMP" property="timeOfEntry"/>
+        <result column="form_of_employment" jdbcType="INTEGER" property="formOfEmployment"/>
+        <result column="work_number" jdbcType="VARCHAR" property="workNumber"/>
+        <result column="form_of_management" jdbcType="VARCHAR" property="formOfManagement"/>
+        <result column="working_city" jdbcType="VARCHAR" property="workingCity"/>
+        <result column="correction_time" jdbcType="TIMESTAMP" property="correctionTime"/>
+        <result column="in_service_status" jdbcType="INTEGER" property="inServiceStatus"/>
+        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.hrm.model.system.entity.User">
+        insert into pe_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="role != null">
+                role,
+            </if>
+            <if test="enableState != null">
+                enable_state,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="departmentId != null">
+                department_id,
+            </if>
+            <if test="timeOfEntry != null">
+                time_of_entry,
+            </if>
+            <if test="formOfEmployment != null">
+                form_of_employment,
+            </if>
+            <if test="workNumber != null">
+                work_number,
+            </if>
+            <if test="formOfManagement != null">
+                form_of_management,
+            </if>
+            <if test="workingCity != null">
+                working_city,
+            </if>
+            <if test="correctionTime != null">
+                correction_time,
+            </if>
+            <if test="inServiceStatus != null">
+                in_service_status,
+            </if>
+            <if test="companyId != null">
+                company_id,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="departmentName != null">
+                department_name,
+            </if>
+            <if test="roleIds != null">
+                role_ids,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                #{role,jdbcType=VARCHAR},
+            </if>
+            <if test="enableState != null">
+                #{enableState,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="departmentId != null">
+                #{departmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="timeOfEntry != null">
+                #{timeOfEntry,jdbcType=TIMESTAMP},
+            </if>
+            <if test="formOfEmployment != null">
+                #{formOfEmployment,jdbcType=INTEGER},
+            </if>
+            <if test="workNumber != null">
+                #{workNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="formOfManagement != null">
+                #{formOfManagement,jdbcType=VARCHAR},
+            </if>
+            <if test="workingCity != null">
+                #{workingCity,jdbcType=VARCHAR},
+            </if>
+            <if test="correctionTime != null">
+                #{correctionTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inServiceStatus != null">
+                #{inServiceStatus,jdbcType=INTEGER},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentName != null">
+                #{departmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleIds != null">
+                #{roleIds,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteById" parameterType="java.lang.String">
+    delete from pe_user
+    where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <update id="update" parameterType="com.hrm.model.system.entity.User">
+        update pe_user
+        <set>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                role = #{role,jdbcType=VARCHAR},
+            </if>
+            <if test="enableState != null">
+                enable_state = #{enableState,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="timeOfEntry != null">
+                time_of_entry = #{timeOfEntry,jdbcType=TIMESTAMP},
+            </if>
+            <if test="formOfEmployment != null">
+                form_of_employment = #{formOfEmployment,jdbcType=INTEGER},
+            </if>
+            <if test="workNumber != null">
+                work_number = #{workNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="formOfManagement != null">
+                form_of_management = #{formOfManagement,jdbcType=VARCHAR},
+            </if>
+            <if test="workingCity != null">
+                working_city = #{workingCity,jdbcType=VARCHAR},
+            </if>
+            <if test="correctionTime != null">
+                correction_time = #{correctionTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inServiceStatus != null">
+                in_service_status = #{inServiceStatus,jdbcType=INTEGER},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentName != null">
+                department_name = #{departmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleIds != null">
+                role_ids = #{roleIds,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+         id, mobile, username, password,
+         role, enable_state, create_time, department_id,
+         time_of_entry, form_of_employment, work_number, form_of_management,
+         working_city, correction_time, in_service_status, company_id,
+         company_name, department_name, role_ids
+        from pe_user
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+         id, mobile, username, password,
+         role, enable_state, create_time, department_id,
+         time_of_entry, form_of_employment, work_number, form_of_management,
+         working_city, correction_time, in_service_status, company_id,
+         company_name, department_name, role_ids
+        from pe_user
+    </select>
+    <select id="selectAllPage" resultMap="BaseResultMap">
+        select
+         id, mobile, username, password,
+         role, enable_state, create_time, department_id,
+         time_of_entry, form_of_employment, work_number, form_of_management,
+         working_city, correction_time, in_service_status, company_id,
+         company_name, department_name, role_ids
+        from pe_user
+        limit #{pageMin},#{pageMax}
+    </select>
+</mapper>
