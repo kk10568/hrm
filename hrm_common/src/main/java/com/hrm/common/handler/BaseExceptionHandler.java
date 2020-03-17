@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *      1.声明异常处理器
  *      2.对异常统一处理
  */
+//ControllerAdvice MVC中对于异常的处理
 @ControllerAdvice
 public class BaseExceptionHandler {
     @ExceptionHandler(value = Exception.class)

@@ -1,13 +1,11 @@
 package com.hrm.company.controller;
 
 import com.hrm.common.entity.Result;
-import com.hrm.common.entity.ResultCode;
-import com.hrm.company.server.impl.CompanyServerImpl;
+import com.hrm.company.service.impl.CompanyServiceImpl;
 import com.hrm.model.company.entity.Company;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -20,7 +18,7 @@ import java.util.Date;
 @RequestMapping("/company")
 public class CompanyController {
     @Autowired
-    private CompanyServerImpl companyServer;
+    private CompanyServiceImpl companyService;
 
     @RequestMapping("/insert")
     public Result insertCompany() {
@@ -31,7 +29,7 @@ public class CompanyController {
         company.setState(1);
         company.setBalance((double)0);
         company.setCreateTime(new Date());
-        int insert = companyServer.insert(company);
+        int insert = companyService.insert(company);
         if (insert > 0) {
             return Result.SUCCESS();
         } else {
@@ -40,7 +38,7 @@ public class CompanyController {
     }
     @RequestMapping("/delete")
     public Result delete(String id){
-        int delete = companyServer.delete(id);
+        int delete = companyService.delete(id);
         if (delete>0){
             return Result.SUCCESS();
         }else {
@@ -52,7 +50,7 @@ public class CompanyController {
         Company company = new Company();
         company.setId("1");
         company.setName("DAMO");
-        int update = companyServer.update(company);
+        int update = companyService.update(company);
         if (update>0){
             return Result.SUCCESS();
         }else {
@@ -61,7 +59,7 @@ public class CompanyController {
     }
     @GetMapping(value = "/findById{id}")
     public Result findById(@PathVariable("id") String id){
-        Company byId = companyServer.findById(id);
+        Company byId = companyService.findById(id);
         if (byId!=null){
             return Result.SUCCESS(byId);
         }else {
@@ -70,7 +68,7 @@ public class CompanyController {
     }
     @RequestMapping("/findAll")
     public Result findAll(){
-        return Result.SUCCESS(companyServer.findAll());
+        return Result.SUCCESS(companyService.findAll());
     }
 
 }

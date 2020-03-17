@@ -44,7 +44,7 @@
                 <property name="enableSubPackages" value="false" />
             </javaClientGenerator>
             <!-- 指定数据库表 -->
-            <table tableName="co_department"
+            <table tableName="bs_user"
              enableCountByExample="false"
              enableDeleteByExample="false"
              enableSelectByExample="false"

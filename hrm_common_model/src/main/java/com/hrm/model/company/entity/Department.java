@@ -116,4 +116,21 @@ public class Department implements Serializable {
     public void setIntroduce(String introduce) {
         this.introduce = introduce == null ? null : introduce.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id='" + id + '\'' +
+                ", companyId='" + companyId + '\'' +
+                ", pid='" + pid + '\'' +
+                ", name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", category='" + category + '\'' +
+                ", managerId='" + managerId + '\'' +
+                ", city='" + city + '\'' +
+                ", createTime=" + createTime +
+                ", manager='" + manager + '\'' +
+                ", introduce='" + introduce + '\'' +
+                '}';
+    }
 }

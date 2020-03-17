@@ -1,8 +1,6 @@
-package com.hrm.company.server;
+package com.hrm.company.service;
 
-import com.hrm.company.mapper.DepartmentMapper;
 import com.hrm.model.company.entity.Department;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -11,7 +9,7 @@ import java.util.List;
  * @author: Mr.DAMO
  * @create: 2020-03-16 20:24
  **/
-public interface DepartmentServer {
+public interface DepartmentService {
     int deleteById(String id);
 
     int insert(Department record);
