@@ -227,6 +227,7 @@
          working_city, correction_time, in_service_status, company_id,
          company_name, department_name, role_ids
         from pe_user
+        where company_id=#{companyId}
     </select>
     <select id="selectAllPage" resultMap="BaseResultMap">
         select
@@ -237,5 +238,8 @@
          company_name, department_name, role_ids
         from pe_user
         limit #{pageMin},#{pageMax}
+    </select>
+    <select id="count" resultType="int">
+        select COUNT(id) from pe_user
     </select>
 </mapper>

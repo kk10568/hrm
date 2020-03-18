@@ -34,18 +34,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> selectAll() {
-        return userMapper.selectAll();
+    public List<User> selectAll(String companyId) {
+        return userMapper.selectAll(companyId);
     }
 
     @Override
-    public List<User> selectAllPage(int pageMin, int pageMax) {
+    public List<User> selectAllPage(String companyId,int pageMin, int pageMax) {
 
-        return userMapper.selectAllPage(pageMin, pageMax);
+        return userMapper.selectAllPage( companyId,pageMin, pageMax);
     }
 
     @Override
     public User selectById(String id) {
         return userMapper.selectById(id);
+    }
+
+    @Override
+    public int count() {
+        return userMapper.count();
     }
 }

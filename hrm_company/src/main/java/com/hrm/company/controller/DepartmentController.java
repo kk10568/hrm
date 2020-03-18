@@ -1,5 +1,6 @@
 package com.hrm.company.controller;
 
+import com.hrm.common.controller.BaseController;
 import com.hrm.common.entity.Result;
 import com.hrm.common.utils.IdWorker;
 import com.hrm.company.service.impl.CompanyServiceImpl;
@@ -21,7 +22,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/company/department")
-public class DepartmentController {
+public class DepartmentController extends BaseController {
     @Autowired
     private IdWorker idWorker;
     @Autowired
@@ -31,8 +32,8 @@ public class DepartmentController {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public Result insert(@RequestBody Department recover) {
-        //目前企业id为1后面解决
-        recover.setCompanyId("1");
+        //目前企业id取值为BaseController里面的companyId为1后面解决
+        recover.setCompanyId(companyId);
         //或者使用String.valueOf(idWorker.nextId())
         recover.setId(idWorker.nextId()+"");
         recover.setCreateTime(new Date());
@@ -66,7 +67,6 @@ public class DepartmentController {
 
     @RequestMapping(value = "/findById{id}", method = RequestMethod.GET)
     public Result findById(@PathVariable("id") String id) {
-
         Department dept = departmentService.findById(id);
         if (dept != null){
             return Result.SUCCESS(dept);
@@ -78,9 +78,10 @@ public class DepartmentController {
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public Result findById() {
         //暂时使用企业Id为1后面解决
-        List<Department> list = departmentService.findAll("1");
+        List<Department> list = departmentService.findAll(companyId);
         if (list.size()>0){
-            Company company = companyService.findById("1");
+            //根据公司查询到公司对象Company放入DeptListResult构造
+            Company company = companyService.findById(companyId);
             DeptListResult deptListResult = new DeptListResult(company, list);
             return Result.SUCCESS(deptListResult);
         }else {

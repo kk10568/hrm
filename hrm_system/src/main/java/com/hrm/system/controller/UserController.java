@@ -1,5 +1,6 @@
 package com.hrm.system.controller;
 
+import com.hrm.common.controller.BaseController;
 import com.hrm.common.entity.PageResult;
 import com.hrm.common.entity.Result;
 import com.hrm.common.utils.IdWorker;
@@ -18,7 +19,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/sys")
-public class UserController {
+public class UserController extends BaseController {
     @Autowired
     private IdWorker idWorker;
     @Autowired
@@ -58,13 +59,10 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public Result selectAll(int page, int size) {
-        System.out.println(page);
-        System.out.println(size);
-        List<User> users = userService.selectAllPage((page-1)*size,size);
+        List<User> users = userService.selectAllPage(companyId,(page - 1) * size, size);
         if (users != null || users.size() > 0) {
             PageResult<User> userPageResult = new PageResult<User>(users);
-            userPageResult.setTotal(Long.valueOf(users.size()));
-            userPageResult.setRows(users);
+            userPageResult.setTotal(Long.valueOf(userService.count()));
             return Result.SUCCESS(userPageResult);
         } else {
             return Result.FAIL();
@@ -75,7 +73,10 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public Result insert(@RequestBody User record) {
+        //设置主键id
         record.setId(idWorker.nextId() + "");
+        //设置初始密码
+        record.setPassword("123456");
         int i = userService.insert(record);
         if (i > 0) {
             return Result.SUCCESS();

@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
+    int count();
 
     int insert(User record);
 
@@ -15,9 +16,11 @@ public interface UserMapper {
 
     int update(User record);
 
-    List<User> selectAll();
+    List<User> selectAll(String companyId);
 
-    List<User> selectAllPage(int pageMin, int pageMax);
+    List<User> selectAllPage(String companyId,int pageMin, int pageMax);
 
     User selectById(String id);
+
+
 }

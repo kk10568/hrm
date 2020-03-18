@@ -12,9 +12,11 @@ public interface UserService {
 
     int update(User record);
 
-    List<User> selectAll();
+    List<User> selectAll(String companyId);
 
-    List<User> selectAllPage(int pageMin, int pageMax);
+    List<User> selectAllPage(String companyId,int pageMin, int pageMax);
 
     User selectById(String id);
+
+    int count();
 }
