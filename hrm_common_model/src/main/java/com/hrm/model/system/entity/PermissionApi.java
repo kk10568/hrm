@@ -40,4 +40,14 @@ public class PermissionApi {
     public void setApiUrl(String apiUrl) {
         this.apiUrl = apiUrl == null ? null : apiUrl.trim();
     }
+
+    @Override
+    public String toString() {
+        return "PermissionApi{" +
+                "id='" + id + '\'' +
+                ", apiLevel='" + apiLevel + '\'' +
+                ", apiMethod='" + apiMethod + '\'' +
+                ", apiUrl='" + apiUrl + '\'' +
+                '}';
+    }
 }

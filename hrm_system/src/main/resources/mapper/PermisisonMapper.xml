@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.system.mapper.PermissionMapper">
+    <resultMap id="BaseResultMap" type="com.hrm.model.system.entity.Permission">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="description" jdbcType="LONGVARCHAR" property="description"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="pid" jdbcType="VARCHAR" property="pid"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="en_visible" jdbcType="INTEGER" property="enVisible"/>
+        <association property="permissionApi" javaType="com.hrm.model.system.entity.PermissionApi">
+            <id column="id" jdbcType="VARCHAR" property="id"/>
+            <result column="api_level" jdbcType="VARCHAR" property="apiLevel"/>
+            <result column="api_method" jdbcType="VARCHAR" property="apiMethod"/>
+            <result column="api_url" jdbcType="VARCHAR" property="apiUrl"/>
+        </association>
+        <association property="permissionMenu" javaType="com.hrm.model.system.entity.PermissionMenu">
+            <id column="id" jdbcType="VARCHAR" property="id"/>
+            <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
+            <result column="menu_order" jdbcType="VARCHAR" property="menuOrder"/>
+        </association>
+        <association property="permissionPoint" javaType="com.hrm.model.system.entity.PermissionPoint">
+            <result column="point_class" jdbcType="VARCHAR" property="pointClass"/>
+            <result column="point_icon" jdbcType="VARCHAR" property="pointIcon"/>
+            <result column="point_status" jdbcType="INTEGER" property="pointStatus"/>
+        </association>
+    </resultMap>
+    <insert id="insert" parameterType="com.hrm.model.system.entity.Permission">
+        insert into pe_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="enVisible != null">
+                en_visible,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="enVisible != null">
+                #{enVisible,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <delete id="delete">
+        delete from pe_permission
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <update id="update" parameterType="permission">
+        update pe_permission
+        <set>
+            <if test="name != null">
+                name = #{permission.name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{permission.type,jdbcType=TINYINT},
+            </if>
+            <if test="pid != null">
+                pid = #{permission.pid,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{permission.code,jdbcType=VARCHAR},
+            </if>
+            <if test="enVisible != null">
+                en_visible = #{permission.enVisible,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{permission.description,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{permission.id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select *
+        from pe_permission p
+        left join pe_permission_api pa
+        on p.id=pa.id
+        left join pe_permission_menu pm
+        on p.id=pm.id
+        left join pe_permission_point pp
+        on p.id=pp.id
+        <where>
+            <if test="type !=null and type!='0' ">
+                type=#{type}
+            </if>
+            <if test="type =='0'">
+                type in (1,2)
+            </if>
+            <if test="pid !=null and pid!=''">
+                AND pid=#{pid}
+            </if>
+            <if test="enVisible !=null and enVisible!=''">
+                AND en_visible=#{enVisible}
+            </if>
+        </where>
+    </select>
+    <select id="findById" resultMap="BaseResultMap">
+        select *
+        from pe_permission p
+        left join pe_permission_api pa
+        on p.id=pa.id
+        left join pe_permission_menu pm
+        on p.id=pm.id
+        left join pe_permission_point pp
+        on p.id=pp.id
+        where p.id=#{id}
+    </select>
+
+</mapper>

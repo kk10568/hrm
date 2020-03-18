@@ -30,4 +30,13 @@ public class PermissionMenu {
     public void setMenuOrder(String menuOrder) {
         this.menuOrder = menuOrder == null ? null : menuOrder.trim();
     }
+
+    @Override
+    public String toString() {
+        return "PermissionMenu{" +
+                "id='" + id + '\'' +
+                ", menuIcon='" + menuIcon + '\'' +
+                ", menuOrder='" + menuOrder + '\'' +
+                '}';
+    }
 }

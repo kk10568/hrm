@@ -40,4 +40,14 @@ public class PermissionPoint {
     public void setPointStatus(Integer pointStatus) {
         this.pointStatus = pointStatus;
     }
+
+    @Override
+    public String toString() {
+        return "PermissionPoint{" +
+                "id='" + id + '\'' +
+                ", pointClass='" + pointClass + '\'' +
+                ", pointIcon='" + pointIcon + '\'' +
+                ", pointStatus=" + pointStatus +
+                '}';
+    }
 }

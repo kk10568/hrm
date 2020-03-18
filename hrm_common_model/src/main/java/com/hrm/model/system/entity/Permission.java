@@ -15,6 +15,12 @@ public class Permission {
 
     private String description;
 
+    private PermissionApi permissionApi;
+
+    private PermissionMenu permissionMenu;
+
+    private PermissionPoint permissionPoint;
+
     public String getId() {
         return id;
     }
@@ -69,5 +75,45 @@ public class Permission {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public PermissionApi getPermissionApi() {
+        return permissionApi;
+    }
+
+    public void setPermissionApi(PermissionApi permissionApi) {
+        this.permissionApi = permissionApi;
+    }
+
+    public PermissionMenu getPermissionMenu() {
+        return permissionMenu;
+    }
+
+    public void setPermissionMenu(PermissionMenu permissionMenu) {
+        this.permissionMenu = permissionMenu;
+    }
+
+    public PermissionPoint getPermissionPoint() {
+        return permissionPoint;
+    }
+
+    public void setPermissionPoint(PermissionPoint permissionPoint) {
+        this.permissionPoint = permissionPoint;
+    }
+
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", pid='" + pid + '\'' +
+                ", code='" + code + '\'' +
+                ", enVisible=" + enVisible +
+                ", description='" + description + '\'' +
+                ", permissionApi=" + permissionApi +
+                ", permissionMenu=" + permissionMenu +
+                ", permissionPoint=" + permissionPoint +
+                '}';
     }
 }
