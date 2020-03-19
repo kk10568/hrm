@@ -42,7 +42,7 @@ public class User {
 
     private String departmentName;
 
-    private String roleIds;
+    private List<String> roleIds;
 
     private List<Role> roles;
 
@@ -190,12 +190,12 @@ public class User {
         this.departmentName = departmentName == null ? null : departmentName.trim();
     }
 
-    public String getRoleIds() {
+    public List<String> getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(String roleIds) {
-        this.roleIds = roleIds == null ? null : roleIds.trim();
+    public void setRoleIds(List<String> roleIds) {
+        this.roleIds = roleIds;
     }
 
     public List<Role> getRoles() {

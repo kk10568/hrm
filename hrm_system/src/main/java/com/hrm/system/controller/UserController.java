@@ -3,13 +3,16 @@ package com.hrm.system.controller;
 import com.hrm.common.controller.BaseController;
 import com.hrm.common.entity.PageResult;
 import com.hrm.common.entity.Result;
+import com.hrm.common.entity.ResultCode;
 import com.hrm.common.utils.IdWorker;
 import com.hrm.model.system.entity.User;
 import com.hrm.system.service.impl.UserServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -25,6 +28,20 @@ public class UserController extends BaseController {
     @Autowired
     private UserServiceImpl userService;
 
+    /**
+     * 分配角色
+     */
+    @RequestMapping(value = "/user/assignRoles", method = RequestMethod.PUT)
+    public Result save(@RequestParam("id") String id,@RequestParam("roleIds")List<String> roleIds) {
+       /* //1.获取被分配的用户id
+        String userId = (String) map.get("id");
+        //2.获取到角色的id列表
+        List<String> roleIds = (List<String>) map.get("roleIds");
+        //3.调用service完成角色分配*/
+        System.out.println(id);
+        System.out.println(roleIds);
+        return new Result(ResultCode.SUCCESS);
+    }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public Result deleteById(@PathVariable("id") String id) {

@@ -130,7 +130,10 @@
         </where>
     </select>
     <select id="findById" resultMap="BaseResultMap">
-        select *
+        select p.id, description, name, type, pid, code, en_visible ,
+        pa.id, api_level, api_method, api_url,
+        pm.id, menu_icon, menu_order,
+        pp.id, point_class, point_icon, point_status
         from pe_permission p
         left join pe_permission_api pa
         on p.id=pa.id

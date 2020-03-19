@@ -21,6 +21,15 @@
         <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
         <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
+        <collection property="roles" ofType="com.hrm.model.system.entity.Role">
+            <id column="roleId" jdbcType="VARCHAR" property="id"/>
+            <result column="name" jdbcType="VARCHAR" property="name"/>
+            <result column="description" jdbcType="VARCHAR" property="description"/>
+            <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+        </collection>
+        <collection property="roleIds" ofType="String">
+            <result column="roleId" jdbcType="VARCHAR"/>
+        </collection>
     </resultMap>
     <insert id="insert" parameterType="com.hrm.model.system.entity.User">
         insert into pe_user
@@ -210,13 +219,11 @@
 
     <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-         id, mobile, username, password,
-         role, enable_state, create_time, department_id,
-         time_of_entry, form_of_employment, work_number, form_of_management,
-         working_city, correction_time, in_service_status, company_id,
-         company_name, department_name, role_ids
-        from pe_user
-        where id = #{id,jdbcType=VARCHAR}
+        pu.id, pu.mobile, pu.username, pu.password, pu.role, pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.role_ids, pur.role_id, pur.user_id, pr.id as roleId, pr.name, pr.description, pr.company_id
+        from pe_user pu
+        left join pe_user_role pur on pu.id = pur.user_id
+        left join pe_role  pr on pur.role_id=pr.id
+        where pu.id = #{id,jdbcType=VARCHAR}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">

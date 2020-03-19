@@ -22,7 +22,7 @@ public class CompanyController {
     private CompanyServiceImpl companyService;
     @Autowired
     private IdWorker idWorker;
-    @RequestMapping("/insert")
+    @RequestMapping(value = "/insert",method = RequestMethod.POST)
     public Result insertCompany() {
         Company company = new Company();
         //或者使用String.valueOf(idWorker.nextId())
@@ -39,7 +39,7 @@ public class CompanyController {
             return Result.FAIL();
         }
     }
-    @RequestMapping("/delete")
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     public Result delete(String id){
         int delete = companyService.delete(id);
         if (delete>0){
@@ -48,7 +48,7 @@ public class CompanyController {
             return Result.FAIL();
         }
     }
-    @RequestMapping("/update")
+    @RequestMapping(value = "/update",method = RequestMethod.PUT)
     public Result update(){
         Company company = new Company();
         company.setId("1");
