@@ -7,7 +7,6 @@
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="role" jdbcType="VARCHAR" property="role"/>
         <result column="enable_state" jdbcType="INTEGER" property="enableState"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="department_id" jdbcType="VARCHAR" property="departmentId"/>
@@ -21,6 +20,8 @@
         <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
         <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
+        <result column="level" jdbcType="VARCHAR" property="level"/>
+        <result column="staff_photo" jdbcType="LONGVARCHAR" property="staffPhoto"/>
         <collection property="roles" ofType="com.hrm.model.system.entity.Role">
             <id column="roleId" jdbcType="VARCHAR" property="id"/>
             <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -28,7 +29,7 @@
             <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
         </collection>
         <collection property="roleIds" ofType="String">
-            <result column="roleId" jdbcType="VARCHAR"/>
+            <result column="roleId" jdbcType="VARCHAR" property="roleId" />
         </collection>
     </resultMap>
     <insert id="insert" parameterType="com.hrm.model.system.entity.User">
@@ -45,9 +46,6 @@
             </if>
             <if test="password != null">
                 password,
-            </if>
-            <if test="role != null">
-                role,
             </if>
             <if test="enableState != null">
                 enable_state,
@@ -88,8 +86,11 @@
             <if test="departmentName != null">
                 department_name,
             </if>
-            <if test="roleIds != null">
-                role_ids,
+            <if test="level != null">
+                level,
+            </if>
+            <if test="staffPhoto != null">
+                staff_photo,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -104,9 +105,6 @@
             </if>
             <if test="password != null">
                 #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="role != null">
-                #{role,jdbcType=VARCHAR},
             </if>
             <if test="enableState != null">
                 #{enableState,jdbcType=INTEGER},
@@ -147,8 +145,11 @@
             <if test="departmentName != null">
                 #{departmentName,jdbcType=VARCHAR},
             </if>
-            <if test="roleIds != null">
-                #{roleIds,jdbcType=LONGVARCHAR},
+            <if test="level != null">
+                #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="staffPhoto != null">
+                #{staff_photo,jdbcType=LONGVARCHAR},
             </if>
         </trim>
     </insert>
@@ -167,9 +168,6 @@
             </if>
             <if test="password != null">
                 password = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="role != null">
-                role = #{role,jdbcType=VARCHAR},
             </if>
             <if test="enableState != null">
                 enable_state = #{enableState,jdbcType=INTEGER},
@@ -210,16 +208,20 @@
             <if test="departmentName != null">
                 department_name = #{departmentName,jdbcType=VARCHAR},
             </if>
-            <if test="roleIds != null">
-                role_ids = #{roleIds,jdbcType=LONGVARCHAR},
+            <if test="level != null">
+                level = #{level,jdbcType=VARCHAR},
             </if>
+            <if test="staffPhoto != null">
+                staff_photo = #{staffPhoto,jdbcType=LONGVARCHAR},
+            </if>
+
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
 
     <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        pu.id, pu.mobile, pu.username, pu.password, pu.role, pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.role_ids, pur.role_id, pur.user_id, pr.id as roleId, pr.name, pr.description, pr.company_id
+        pu.id, pu.mobile, pu.username, pu.password,  pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.level,pu.staff_photo, pur.role_id, pur.user_id, pr.id as roleId, pr.name, pr.description, pr.company_id
         from pe_user pu
         left join pe_user_role pur on pu.id = pur.user_id
         left join pe_role  pr on pur.role_id=pr.id
@@ -228,22 +230,18 @@
 
     <select id="selectAll" resultMap="BaseResultMap">
         select
-         id, mobile, username, password,
-         role, enable_state, create_time, department_id,
-         time_of_entry, form_of_employment, work_number, form_of_management,
-         working_city, correction_time, in_service_status, company_id,
-         company_name, department_name, role_ids
-        from pe_user
+        pu.id, pu.mobile, pu.username, pu.password,  pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.level,pu.staff_photo, pur.role_id, pur.user_id, pr.id as roleId, pr.name, pr.description, pr.company_id
+        from pe_user pu
+        left join pe_user_role pur on pu.id = pur.user_id
+        left join pe_role  pr on pur.role_id=pr.id
         where company_id=#{companyId}
     </select>
     <select id="selectAllPage" resultMap="BaseResultMap">
         select
-         id, mobile, username, password,
-         role, enable_state, create_time, department_id,
-         time_of_entry, form_of_employment, work_number, form_of_management,
-         working_city, correction_time, in_service_status, company_id,
-         company_name, department_name, role_ids
-        from pe_user
+        pu.id, pu.mobile, pu.username, pu.password,  pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.level,pu.staff_photo, pur.role_id, pur.user_id, pr.id as roleId, pr.name, pr.description, pr.company_id
+        from pe_user pu
+        left join pe_user_role pur on pu.id = pur.user_id
+        left join pe_role  pr on pur.role_id=pr.id
         limit #{pageMin},#{pageMax}
     </select>
     <select id="count" resultType="int">

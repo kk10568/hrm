@@ -36,7 +36,7 @@ public class DepartmentController extends BaseController {
         //目前企业id取值为BaseController里面的companyId为1后面解决
         recover.setCompanyId(companyId);
         //或者使用String.valueOf(idWorker.nextId())
-        recover.setId(idWorker.nextId()+"");
+        recover.setId(idWorker.nextId() + "");
         recover.setCreateTime(new Date());
         int insert = departmentService.insert(recover);
         if (insert > 0) {
@@ -56,8 +56,8 @@ public class DepartmentController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Result update(@RequestBody Department recover) {
+    @RequestMapping(value = "/update{id}", method = RequestMethod.PUT)
+    public Result update(@PathVariable("id") String id, @RequestBody Department recover) {
         int i = departmentService.updateByPrimaryKeySelective(recover);
         if (i > 0) {
             return Result.SUCCESS();
@@ -69,9 +69,9 @@ public class DepartmentController extends BaseController {
     @RequestMapping(value = "/findById{id}", method = RequestMethod.GET)
     public Result findById(@PathVariable("id") String id) {
         Department dept = departmentService.findById(id);
-        if (dept != null){
+        if (dept != null) {
             return Result.SUCCESS(dept);
-        }else {
+        } else {
             return Result.FAIL("未查询到结果");
         }
     }
@@ -80,12 +80,12 @@ public class DepartmentController extends BaseController {
     public Result findById() {
         //暂时使用企业Id为1后面解决
         List<Department> list = departmentService.findAll(companyId);
-        if (list.size()>0){
+        if (list.size() > 0) {
             //根据公司查询到公司对象Company放入DeptListResult构造
             Company company = companyService.findById(companyId);
             DeptListResult deptListResult = new DeptListResult(company, list);
             return Result.SUCCESS(deptListResult);
-        }else {
+        } else {
             return Result.FAIL("未查询到结果");
         }
     }

@@ -14,8 +14,6 @@ public class User {
 
     private String password;
 
-    private String role;
-
     private Integer enableState;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
@@ -41,6 +39,10 @@ public class User {
     private String companyName;
 
     private String departmentName;
+
+    private String level;
+
+    private String staffPhoto;
 
     private List<String> roleIds;
 
@@ -78,13 +80,6 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role == null ? null : role.trim();
-    }
 
     public Integer getEnableState() {
         return enableState;
@@ -196,6 +191,22 @@ public class User {
 
     public void setRoleIds(List<String> roleIds) {
         this.roleIds = roleIds;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getStaffPhoto() {
+        return staffPhoto;
+    }
+
+    public void setStaffPhoto(String staffPhoto) {
+        this.staffPhoto = staffPhoto;
     }
 
     public List<Role> getRoles() {

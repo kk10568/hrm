@@ -7,6 +7,10 @@ import com.hrm.common.entity.ResultCode;
 import com.hrm.common.utils.IdWorker;
 import com.hrm.model.system.entity.User;
 import com.hrm.system.service.impl.UserServiceImpl;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +35,23 @@ public class UserController extends BaseController {
     /**
      * 分配角色
      */
+    @RequestMapping(value="/login",method = RequestMethod.POST)
+    public Result login(@RequestParam("mobile") String mobile,@RequestParam("password")String password){
+        //md5加密
+        password = new Md5Hash(password, mobile, 3).toString();
+        UsernamePasswordToken upToken = new UsernamePasswordToken(mobile,password);
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.login(upToken);
+            String sessionId = subject.getSession().getId().toString();
+            //前端设置的如果登录成功会将返回值作为token存入requestHeader
+            //前端的代码规则为Authorization的头信息主体为Bearer +头信息
+            return Result.SUCCESS(sessionId);
+        }catch (Exception e){
+            return Result.FAIL("用户或密码错误");
+        }
+    }
+
     @RequestMapping(value = "/user/assignRoles", method = RequestMethod.PUT)
     public Result save(@RequestParam("id") String id,@RequestParam("roleIds")List<String> roleIds) {
        /* //1.获取被分配的用户id
@@ -53,9 +74,11 @@ public class UserController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public Result update(@PathVariable("id") String id, @RequestBody User record) {
         record.setId(id);
+        String newPassword = new Md5Hash(record.getPassword(), record.getMobile()).toString();
+        record.setPassword(newPassword);
         int i = userService.update(record);
         if (i > 0) {
             return Result.SUCCESS();
@@ -92,8 +115,9 @@ public class UserController extends BaseController {
     public Result insert(@RequestBody User record) {
         //设置主键id
         record.setId(idWorker.nextId() + "");
-        //设置初始密码
-        record.setPassword("123456");
+        //设置初始密码(123456)
+        //md5三次加密
+        record.setPassword(new Md5Hash("123456",record.getUsername(),3).toString());
         int i = userService.insert(record);
         if (i > 0) {
             return Result.SUCCESS();
