@@ -33,7 +33,6 @@ public class DepartmentController extends BaseController {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public Result insert(@RequestBody Department recover) {
-        //目前企业id取值为BaseController里面的companyId为1后面解决
         recover.setCompanyId(companyId);
         //或者使用String.valueOf(idWorker.nextId())
         recover.setId(idWorker.nextId() + "");
@@ -58,6 +57,7 @@ public class DepartmentController extends BaseController {
 
     @RequestMapping(value = "/update{id}", method = RequestMethod.PUT)
     public Result update(@PathVariable("id") String id, @RequestBody Department recover) {
+        recover.setId(id);
         int i = departmentService.updateByPrimaryKeySelective(recover);
         if (i > 0) {
             return Result.SUCCESS();
@@ -78,7 +78,6 @@ public class DepartmentController extends BaseController {
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public Result findById() {
-        //暂时使用企业Id为1后面解决
         List<Department> list = departmentService.findAll(companyId);
         if (list.size() > 0) {
             //根据公司查询到公司对象Company放入DeptListResult构造

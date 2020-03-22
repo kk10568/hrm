@@ -22,6 +22,7 @@
             <result column="menu_order" jdbcType="VARCHAR" property="menuOrder"/>
         </association>
         <association property="permissionPoint" javaType="com.hrm.model.system.entity.PermissionPoint">
+            <id column="id" jdbcType="VARCHAR" property="id" />
             <result column="point_class" jdbcType="VARCHAR" property="pointClass"/>
             <result column="point_icon" jdbcType="VARCHAR" property="pointIcon"/>
             <result column="point_status" jdbcType="INTEGER" property="pointStatus"/>
@@ -142,6 +143,21 @@
         left join pe_permission_point pp
         on p.id=pp.id
         where p.id=#{id}
+    </select>
+
+    <select id="findByType" resultMap="BaseResultMap">
+        select p.id, description, name, type, pid, code, en_visible ,
+        pa.id, api_level, api_method, api_url,
+        pm.id, menu_icon, menu_order,
+        pp.id, point_class, point_icon, point_status
+        from pe_permission p
+        left join pe_permission_api pa
+        on p.id=pa.id
+        left join pe_permission_menu pm
+        on p.id=pm.id
+        left join pe_permission_point pp
+        on p.id=pp.id
+        where p.type=#{type}
     </select>
 
 </mapper>

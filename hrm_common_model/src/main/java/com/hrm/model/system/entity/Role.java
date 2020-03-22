@@ -1,8 +1,10 @@
 package com.hrm.model.system.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Role {
+public class Role implements Serializable {
+    private static final long serialVersionUID = 3568432160359524222L;
     private String id;
 
     private String name;

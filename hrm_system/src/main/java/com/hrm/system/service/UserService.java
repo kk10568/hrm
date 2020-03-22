@@ -14,9 +14,11 @@ public interface UserService {
 
     List<User> selectAll(String companyId);
 
-    List<User> selectAllPage(String companyId,int pageMin, int pageMax);
+    List<User> selectAllPage(String companyId, int pageMin, int pageMax);
 
     User selectById(String id);
+
+    User selectByMobile(String mobile);
 
     int count();
 }

@@ -22,5 +22,7 @@ public interface UserMapper {
 
     User selectById(String id);
 
+    User selectByMobile(String mobile);
+
 
 }

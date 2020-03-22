@@ -14,4 +14,6 @@ public interface PermissionService {
     List<Permission> findAll(String type,String pid ,String enVisible);
 
     Permission findById(String id);
+
+    List<Permission> findByType(int type);
 }

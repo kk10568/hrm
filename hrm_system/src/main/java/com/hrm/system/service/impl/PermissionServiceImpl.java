@@ -42,4 +42,9 @@ public class PermissionServiceImpl implements PermissionService {
     public Permission findById(String id) {
         return permissionMapper.findById(id);
     }
+
+    @Override
+    public List<Permission> findByType(int type) {
+        return null;
+    }
 }

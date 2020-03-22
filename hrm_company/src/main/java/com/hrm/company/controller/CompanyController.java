@@ -1,5 +1,6 @@
 package com.hrm.company.controller;
 
+import com.hrm.common.controller.BaseController;
 import com.hrm.common.entity.Result;
 import com.hrm.common.utils.IdWorker;
 import com.hrm.company.service.impl.CompanyServiceImpl;
@@ -17,21 +18,14 @@ import java.util.Date;
 @CrossOrigin
 @RestController
 @RequestMapping("/company")
-public class CompanyController {
+public class CompanyController extends BaseController {
     @Autowired
     private CompanyServiceImpl companyService;
     @Autowired
     private IdWorker idWorker;
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
-    public Result insertCompany() {
-        Company company = new Company();
-        //或者使用String.valueOf(idWorker.nextId())
+    public Result insertCompany(@RequestBody Company company) {
         company.setId(idWorker.nextId()+"");
-        company.setName("达摩");
-        company.setManagerId("admin");
-        company.setState(1);
-        company.setBalance((double)0);
-        company.setCreateTime(new Date());
         int insert = companyService.insert(company);
         if (insert > 0) {
             return Result.SUCCESS();
@@ -49,10 +43,7 @@ public class CompanyController {
         }
     }
     @RequestMapping(value = "/update",method = RequestMethod.PUT)
-    public Result update(){
-        Company company = new Company();
-        company.setId("1");
-        company.setName("DAMO");
+    public Result update(@RequestBody Company company){
         int update = companyService.update(company);
         if (update>0){
             return Result.SUCCESS();

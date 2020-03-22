@@ -17,21 +17,26 @@ import java.io.Serializable;
  * @create: 2020-03-21 15:29
  **/
 public class CustomerSessionManager extends DefaultWebSessionManager {
+
+
+    public CustomerSessionManager() {
+        super();
+    }
+
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
 
         //获取请求头Authorization中的数据
-        String sessionId = WebUtils.toHttp(request).getHeader("Authorization");
-        if(StringUtils.isEmpty(sessionId)) {
+        String id = WebUtils.toHttp(request).getHeader("Authorization");
+        if (StringUtils.isEmpty(id)) {
             //如果没有携带，生成新的sessionId
-            return super.getSessionId(request,response);
-        }else {
-            sessionId = sessionId.replaceAll("Bearer", "");
-            //返回sessionId；
+            return super.getSessionId(request, response);
+        } else {
+            id = id.replace("Bearer ", "");
+            //如果请求头中有 authToken 则其值为sessionId
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, "header");
-            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, sessionId);
+            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
-            return sessionId;
+            return id;
         }
     }
-
 }

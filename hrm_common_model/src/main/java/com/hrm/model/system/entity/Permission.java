@@ -1,6 +1,9 @@
 package com.hrm.model.system.entity;
 
-public class Permission {
+import java.io.Serializable;
+
+public class Permission implements Serializable {
+    private static final long serialVersionUID = 3396420387030370105L;
     private String id;
 
     private String name;

@@ -50,6 +50,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User selectByMobile(String mobile) {
+        return userMapper.selectByMobile(mobile);
+    }
+
+    @Override
     public int count() {
         return userMapper.count();
     }

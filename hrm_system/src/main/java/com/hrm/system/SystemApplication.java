@@ -4,6 +4,7 @@ import com.hrm.common.utils.IdWorker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**

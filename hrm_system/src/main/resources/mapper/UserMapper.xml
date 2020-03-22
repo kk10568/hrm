@@ -27,9 +27,35 @@
             <result column="name" jdbcType="VARCHAR" property="name"/>
             <result column="description" jdbcType="VARCHAR" property="description"/>
             <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+            <collection property="permissions" ofType="com.hrm.model.system.entity.Permission">
+                <id column="permissionId" jdbcType="VARCHAR" property="id"/>
+                <result column="permissionDescription" jdbcType="LONGVARCHAR" property="description"/>
+                <result column="name" jdbcType="VARCHAR" property="name"/>
+                <result column="type" jdbcType="TINYINT" property="type"/>
+                <result column="pid" jdbcType="VARCHAR" property="pid"/>
+                <result column="code" jdbcType="VARCHAR" property="code"/>
+                <result column="en_visible" jdbcType="INTEGER" property="enVisible"/>
+                <association property="permissionApi" javaType="com.hrm.model.system.entity.PermissionApi">
+                    <id column="permissionId" jdbcType="VARCHAR" property="id"/>
+                    <result column="api_level" jdbcType="VARCHAR" property="apiLevel"/>
+                    <result column="api_method" jdbcType="VARCHAR" property="apiMethod"/>
+                    <result column="api_url" jdbcType="VARCHAR" property="apiUrl"/>
+                </association>
+                <association property="permissionMenu" javaType="com.hrm.model.system.entity.PermissionMenu">
+                    <id column="permissionId" jdbcType="VARCHAR" property="id"/>
+                    <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
+                    <result column="menu_order" jdbcType="VARCHAR" property="menuOrder"/>
+                </association>
+                <association property="permissionPoint" javaType="com.hrm.model.system.entity.PermissionPoint">
+                    <id column="permissionId" jdbcType="VARCHAR" property="id"/>
+                    <result column="point_class" jdbcType="VARCHAR" property="pointClass"/>
+                    <result column="point_icon" jdbcType="VARCHAR" property="pointIcon"/>
+                    <result column="point_status" jdbcType="INTEGER" property="pointStatus"/>
+                </association>
+            </collection>
         </collection>
         <collection property="roleIds" ofType="String">
-            <result column="roleId" jdbcType="VARCHAR" property="roleId" />
+            <result column="roleId" jdbcType="VARCHAR" property="roleId"/>
         </collection>
     </resultMap>
     <insert id="insert" parameterType="com.hrm.model.system.entity.User">
@@ -221,28 +247,80 @@
 
     <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        pu.id, pu.mobile, pu.username, pu.password,  pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.level,pu.staff_photo, pur.role_id, pur.user_id, pr.id as roleId, pr.name, pr.description, pr.company_id
+        pu.id, pu.mobile, pu.username, pu.password,  pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.level,pu.staff_photo,
+        pur.role_id, pur.user_id,
+        pr.id as roleId, pr.name, pr.description, pr.company_id,
+        pp.id as permissionId, pp.description as permissionDescription, pp.name, pp.type, pp.pid, pp.code, pp.en_visible,
+         ppa.api_level, ppa.api_method, ppa.api_url,
+         ppm.menu_icon, ppm.menu_order,
+         ppp.point_class, ppp.point_icon, ppp.point_status
         from pe_user pu
         left join pe_user_role pur on pu.id = pur.user_id
         left join pe_role  pr on pur.role_id=pr.id
+        left join pe_role_permission prp on pr.id = prp.role_id
+        left join pe_permission pp on prp.permission_id = pp.id
+        left join pe_permission_api ppa on pp.id=ppa.id
+        left join pe_permission_menu ppm  on pp.id=ppm.id
+        left join pe_permission_point ppp on pp.id=ppp.id
         where pu.id = #{id,jdbcType=VARCHAR}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
         select
-        pu.id, pu.mobile, pu.username, pu.password,  pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.level,pu.staff_photo, pur.role_id, pur.user_id, pr.id as roleId, pr.name, pr.description, pr.company_id
+        pu.id, pu.mobile, pu.username, pu.password,  pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.level,pu.staff_photo,
+        pur.role_id, pur.user_id,
+        pr.id as roleId, pr.name, pr.description, pr.company_id,
+        pp.id as permissionId, pp.description as permissionDescription, pp.name, pp.type, pp.pid, pp.code, pp.en_visible,
+         ppa.api_level, ppa.api_method, ppa.api_url,
+         ppm.menu_icon, ppm.menu_order,
+         ppp.point_class, ppp.point_icon, ppp.point_status
         from pe_user pu
         left join pe_user_role pur on pu.id = pur.user_id
         left join pe_role  pr on pur.role_id=pr.id
+        left join pe_role_permission prp on pr.id = prp.role_id
+        left join pe_permission pp on prp.permission_id = pp.id
+        left join pe_permission_api ppa on pp.id=ppa.id
+        left join pe_permission_menu ppm  on pp.id=ppm.id
+        left join pe_permission_point ppp on pp.id=ppp.id
         where company_id=#{companyId}
     </select>
     <select id="selectAllPage" resultMap="BaseResultMap">
-        select
-        pu.id, pu.mobile, pu.username, pu.password,  pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.level,pu.staff_photo, pur.role_id, pur.user_id, pr.id as roleId, pr.name, pr.description, pr.company_id
+       select
+        pu.id, pu.mobile, pu.username, pu.password,  pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.level,pu.staff_photo,
+        pur.role_id, pur.user_id,
+        pr.id as roleId, pr.name, pr.description, pr.company_id,
+        pp.id as permissionId, pp.description as permissionDescription, pp.name, pp.type, pp.pid, pp.code, pp.en_visible,
+         ppa.api_level, ppa.api_method, ppa.api_url,
+         ppm.menu_icon, ppm.menu_order,
+         ppp.point_class, ppp.point_icon, ppp.point_status
         from pe_user pu
         left join pe_user_role pur on pu.id = pur.user_id
         left join pe_role  pr on pur.role_id=pr.id
+        left join pe_role_permission prp on pr.id = prp.role_id
+        left join pe_permission pp on prp.permission_id = pp.id
+        left join pe_permission_api ppa on pp.id=ppa.id
+        left join pe_permission_menu ppm  on pp.id=ppm.id
+        left join pe_permission_point ppp on pp.id=ppp.id
         limit #{pageMin},#{pageMax}
+    </select>
+    <select id="selectByMobile" resultMap="BaseResultMap" parameterType="String">
+        select
+        pu.id, pu.mobile, pu.username, pu.password,  pu.enable_state, pu.create_time, pu.department_id, pu.time_of_entry, pu.form_of_employment, pu.work_number, pu.form_of_management, pu.working_city, pu.correction_time, pu.in_service_status, pu.company_id, pu.company_name, pu.department_name, pu.level,pu.staff_photo,
+        pur.role_id, pur.user_id,
+        pr.id as roleId, pr.name, pr.description, pr.company_id,
+        pp.id as permissionId, pp.description as permissionDescription, pp.name, pp.type, pp.pid, pp.code, pp.en_visible,
+        ppa.api_level, ppa.api_method, ppa.api_url,
+        ppm.menu_icon, ppm.menu_order,
+        ppp.point_class, ppp.point_icon, ppp.point_status
+        from pe_user pu
+        left join pe_user_role pur on pu.id = pur.user_id
+        left join pe_role  pr on pur.role_id=pr.id
+        left join pe_role_permission prp on pr.id = prp.role_id
+        left join pe_permission pp on prp.permission_id = pp.id
+        left join pe_permission_api ppa on pp.id=ppa.id
+        left join pe_permission_menu ppm  on pp.id=ppm.id
+        left join pe_permission_point ppp on pp.id=ppp.id
+        where pu.mobile=#{mobile}
     </select>
     <select id="count" resultType="int">
         select COUNT(id) from pe_user
