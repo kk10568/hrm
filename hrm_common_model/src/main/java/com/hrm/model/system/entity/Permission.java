@@ -18,11 +18,21 @@ public class Permission implements Serializable {
 
     private String description;
 
-    private PermissionApi permissionApi;
+    private String apiLevel;
 
-    private PermissionMenu permissionMenu;
+    private String apiMethod;
 
-    private PermissionPoint permissionPoint;
+    private String apiUrl;
+
+    private String menuIcon;
+
+    private String menuOrder;
+
+    private String pointClass;
+
+    private String pointIcon;
+
+    private Integer pointStatus;
 
     public String getId() {
         return id;
@@ -80,28 +90,69 @@ public class Permission implements Serializable {
         this.description = description == null ? null : description.trim();
     }
 
-    public PermissionApi getPermissionApi() {
-        return permissionApi;
+
+    public String getApiLevel() {
+        return apiLevel;
     }
 
-    public void setPermissionApi(PermissionApi permissionApi) {
-        this.permissionApi = permissionApi;
+    public void setApiLevel(String apiLevel) {
+        this.apiLevel = apiLevel;
     }
 
-    public PermissionMenu getPermissionMenu() {
-        return permissionMenu;
+    public String getApiMethod() {
+        return apiMethod;
     }
 
-    public void setPermissionMenu(PermissionMenu permissionMenu) {
-        this.permissionMenu = permissionMenu;
+    public void setApiMethod(String apiMethod) {
+        this.apiMethod = apiMethod;
     }
 
-    public PermissionPoint getPermissionPoint() {
-        return permissionPoint;
+    public String getApiUrl() {
+        return apiUrl;
     }
 
-    public void setPermissionPoint(PermissionPoint permissionPoint) {
-        this.permissionPoint = permissionPoint;
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
+    }
+
+    public String getMenuIcon() {
+        return menuIcon;
+    }
+
+    public void setMenuIcon(String menuIcon) {
+        this.menuIcon = menuIcon;
+    }
+
+    public String getMenuOrder() {
+        return menuOrder;
+    }
+
+    public void setMenuOrder(String menuOrder) {
+        this.menuOrder = menuOrder;
+    }
+
+    public String getPointClass() {
+        return pointClass;
+    }
+
+    public void setPointClass(String pointClass) {
+        this.pointClass = pointClass;
+    }
+
+    public String getPointIcon() {
+        return pointIcon;
+    }
+
+    public void setPointIcon(String pointIcon) {
+        this.pointIcon = pointIcon;
+    }
+
+    public Integer getPointStatus() {
+        return pointStatus;
+    }
+
+    public void setPointStatus(Integer pointStatus) {
+        this.pointStatus = pointStatus;
     }
 
     @Override
@@ -114,9 +165,14 @@ public class Permission implements Serializable {
                 ", code='" + code + '\'' +
                 ", enVisible=" + enVisible +
                 ", description='" + description + '\'' +
-                ", permissionApi=" + permissionApi +
-                ", permissionMenu=" + permissionMenu +
-                ", permissionPoint=" + permissionPoint +
+                ", apiLevel='" + apiLevel + '\'' +
+                ", apiMethod='" + apiMethod + '\'' +
+                ", apiUrl='" + apiUrl + '\'' +
+                ", menuIcon='" + menuIcon + '\'' +
+                ", menuOrder='" + menuOrder + '\'' +
+                ", pointClass='" + pointClass + '\'' +
+                ", pointIcon='" + pointIcon + '\'' +
+                ", pointStatus=" + pointStatus +
                 '}';
     }
 }

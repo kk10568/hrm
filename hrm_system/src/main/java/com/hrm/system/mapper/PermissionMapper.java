@@ -18,7 +18,7 @@ public interface PermissionMapper {
 
     int delete(String id);
 
-    int update(@Param("permission")Permission recover);
+    int update(Permission recover);
 
     List<Permission> findAll(String type, String pid, String enVisible);
 

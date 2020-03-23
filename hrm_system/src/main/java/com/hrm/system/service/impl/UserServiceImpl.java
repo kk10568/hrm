@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int count() {
-        return userMapper.count();
+    public int count(String companyId) {
+        return userMapper.count(companyId);
     }
 }

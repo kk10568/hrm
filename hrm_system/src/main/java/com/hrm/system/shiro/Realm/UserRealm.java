@@ -27,10 +27,12 @@ public class UserRealm extends HrmRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        UsernamePasswordToken uptoken = (UsernamePasswordToken) authenticationToken;
-        String mobile = uptoken.getUsername();
-        String password = new String(uptoken.getPassword());
+        UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
+        String mobile = upToken.getUsername();
+        String password = new String(upToken.getPassword());
         User user = userService.selectByMobile(mobile);
+        System.out.println(password);
+        System.out.println(user.getPassword());
         if (user != null && user.getPassword().equals(password)) {
             //4.构造安全数据并返回（安全数据：用户基本数据，权限信息 profileResult）
             ProfileResult result = null;

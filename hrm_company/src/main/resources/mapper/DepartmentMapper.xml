@@ -104,7 +104,7 @@
             <if test="companyId != null">
                 company_id = #{companyId,jdbcType=VARCHAR},
             </if>
-            <if test="pid != null">
+            <if test="pid != null and pid!=''">
                 pid = #{pid,jdbcType=VARCHAR},
             </if>
             <if test="name != null">

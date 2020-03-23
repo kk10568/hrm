@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.system.mapper.PermissionMenuMapper">
+    <insert id="insert" parameterType="permission">
+    insert into pe_permission_menu (id, menu_icon, menu_order)
+    VALUES(#{id},#{menuIcon} ,#{menuOrder})
+    </insert>
+    <delete id="deleteById" parameterType="String">
+        delete from  pe_permission_menu
+        where id=#{id}
+    </delete>
+    <update id="update" parameterType="permission">
+        update pe_permission_menu
+        <set>
+            <if test="menuIcon != null">
+                menu_icon = #{menuIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="menuOrder != null">
+                menu_order = #{menuOrder,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

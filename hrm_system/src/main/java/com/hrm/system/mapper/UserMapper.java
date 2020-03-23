@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    int count();
+    int count(String companyId);
 
     int insert(User record);
 
@@ -23,6 +23,5 @@ public interface UserMapper {
     User selectById(String id);
 
     User selectByMobile(String mobile);
-
 
 }

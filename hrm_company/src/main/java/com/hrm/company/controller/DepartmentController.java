@@ -58,6 +58,7 @@ public class DepartmentController extends BaseController {
     @RequestMapping(value = "/update{id}", method = RequestMethod.PUT)
     public Result update(@PathVariable("id") String id, @RequestBody Department recover) {
         recover.setId(id);
+        System.out.println(recover);
         int i = departmentService.updateByPrimaryKeySelective(recover);
         if (i > 0) {
             return Result.SUCCESS();

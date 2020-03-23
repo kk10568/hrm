@@ -10,23 +10,14 @@
         <result column="pid" jdbcType="VARCHAR" property="pid"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="en_visible" jdbcType="INTEGER" property="enVisible"/>
-        <association property="permissionApi" javaType="com.hrm.model.system.entity.PermissionApi">
-            <id column="id" jdbcType="VARCHAR" property="id"/>
-            <result column="api_level" jdbcType="VARCHAR" property="apiLevel"/>
-            <result column="api_method" jdbcType="VARCHAR" property="apiMethod"/>
-            <result column="api_url" jdbcType="VARCHAR" property="apiUrl"/>
-        </association>
-        <association property="permissionMenu" javaType="com.hrm.model.system.entity.PermissionMenu">
-            <id column="id" jdbcType="VARCHAR" property="id"/>
-            <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
-            <result column="menu_order" jdbcType="VARCHAR" property="menuOrder"/>
-        </association>
-        <association property="permissionPoint" javaType="com.hrm.model.system.entity.PermissionPoint">
-            <id column="id" jdbcType="VARCHAR" property="id" />
-            <result column="point_class" jdbcType="VARCHAR" property="pointClass"/>
-            <result column="point_icon" jdbcType="VARCHAR" property="pointIcon"/>
-            <result column="point_status" jdbcType="INTEGER" property="pointStatus"/>
-        </association>
+        <result column="api_level" jdbcType="VARCHAR" property="apiLevel"/>
+        <result column="api_method" jdbcType="VARCHAR" property="apiMethod"/>
+        <result column="api_url" jdbcType="VARCHAR" property="apiUrl"/>
+        <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
+        <result column="menu_order" jdbcType="VARCHAR" property="menuOrder"/>
+        <result column="point_class" jdbcType="VARCHAR" property="pointClass"/>
+        <result column="point_icon" jdbcType="VARCHAR" property="pointIcon"/>
+        <result column="point_status" jdbcType="INTEGER" property="pointStatus"/>
     </resultMap>
     <insert id="insert" parameterType="com.hrm.model.system.entity.Permission">
         insert into pe_permission
@@ -85,29 +76,32 @@
         update pe_permission
         <set>
             <if test="name != null">
-                name = #{permission.name,jdbcType=VARCHAR},
+                name = #{name,jdbcType=VARCHAR},
             </if>
             <if test="type != null">
-                type = #{permission.type,jdbcType=TINYINT},
+                type = #{type,jdbcType=TINYINT},
             </if>
             <if test="pid != null">
-                pid = #{permission.pid,jdbcType=VARCHAR},
+                pid = #{pid,jdbcType=VARCHAR},
             </if>
             <if test="code != null">
-                code = #{permission.code,jdbcType=VARCHAR},
+                code = #{code,jdbcType=VARCHAR},
             </if>
             <if test="enVisible != null">
-                en_visible = #{permission.enVisible,jdbcType=INTEGER},
+                en_visible = #{enVisible,jdbcType=INTEGER},
             </if>
             <if test="description != null">
-                description = #{permission.description,jdbcType=LONGVARCHAR},
+                description = #{description,jdbcType=LONGVARCHAR},
             </if>
         </set>
-        where id = #{permission.id,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
     </update>
 
     <select id="findAll" resultMap="BaseResultMap">
-        select *
+        select p.id, p.description, p.name, p.type, p.pid, p.code, p.en_visible ,
+         pa.api_level, pa.api_method, pa.api_url,
+         pm.menu_icon, pm.menu_order,
+         pp.point_class, pp.point_icon, pp.point_status
         from pe_permission p
         left join pe_permission_api pa
         on p.id=pa.id
@@ -117,24 +111,24 @@
         on p.id=pp.id
         <where>
             <if test="type !=null and type!='0' ">
-                type=#{type}
+                p.type=#{type}
             </if>
             <if test="type =='0'">
-                type in (1,2)
+                p.type in (1,2)
             </if>
             <if test="pid !=null and pid!=''">
-                AND pid=#{pid}
+                AND p.pid=#{pid}
             </if>
             <if test="enVisible !=null and enVisible!=''">
-                AND en_visible=#{enVisible}
+                AND p.en_visible=#{enVisible}
             </if>
         </where>
     </select>
     <select id="findById" resultMap="BaseResultMap">
-        select p.id, description, name, type, pid, code, en_visible ,
-        pa.id, api_level, api_method, api_url,
-        pm.id, menu_icon, menu_order,
-        pp.id, point_class, point_icon, point_status
+        select p.id, p.description, p.name, p.type, p.pid, p.code, p.en_visible ,
+         pa.api_level, pa.api_method, pa.api_url,
+         pm.menu_icon, pm.menu_order,
+         pp.point_class, pp.point_icon, pp.point_status
         from pe_permission p
         left join pe_permission_api pa
         on p.id=pa.id

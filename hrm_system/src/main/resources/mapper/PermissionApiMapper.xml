@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.system.mapper.PermissionApiMapper">
+    <insert id="insert" parameterType="permission">
+        insert into pe_permission_api (id, api_level, api_method, api_url)
+        values (#{id},#{apiLevel},#{apiMethod},#{apiUrl})
+    </insert>
+
+    <delete id="deleteById" parameterType="String">
+        delete from pe_permission_api
+        where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="permission">
+        update pe_permission_api
+        <set>
+            <if test="apiLevel != null">
+                api_level = #{apiLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="apiMethod != null">
+                api_method = #{apiMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="apiUrl != null">
+                api_url = #{apiUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

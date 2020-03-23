@@ -20,5 +20,5 @@ public interface UserService {
 
     User selectByMobile(String mobile);
 
-    int count();
+    int count(String companyId);
 }

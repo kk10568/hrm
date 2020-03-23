@@ -34,6 +34,7 @@ public class HrmRealm extends AuthorizingRealm {
         //2.获取权限信息
         Set<String> apisPerms = (Set<String>)result.getRoles().get("apis");
         //3.构造权限数据，返回值
+        System.out.println("进项授权"+apisPerms);
         SimpleAuthorizationInfo info = new  SimpleAuthorizationInfo();
         info.setStringPermissions(apisPerms);
         return info;

@@ -35,23 +35,14 @@
                 <result column="pid" jdbcType="VARCHAR" property="pid"/>
                 <result column="code" jdbcType="VARCHAR" property="code"/>
                 <result column="en_visible" jdbcType="INTEGER" property="enVisible"/>
-                <association property="permissionApi" javaType="com.hrm.model.system.entity.PermissionApi">
-                    <id column="permissionId" jdbcType="VARCHAR" property="id"/>
-                    <result column="api_level" jdbcType="VARCHAR" property="apiLevel"/>
-                    <result column="api_method" jdbcType="VARCHAR" property="apiMethod"/>
-                    <result column="api_url" jdbcType="VARCHAR" property="apiUrl"/>
-                </association>
-                <association property="permissionMenu" javaType="com.hrm.model.system.entity.PermissionMenu">
-                    <id column="permissionId" jdbcType="VARCHAR" property="id"/>
-                    <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
-                    <result column="menu_order" jdbcType="VARCHAR" property="menuOrder"/>
-                </association>
-                <association property="permissionPoint" javaType="com.hrm.model.system.entity.PermissionPoint">
-                    <id column="permissionId" jdbcType="VARCHAR" property="id"/>
-                    <result column="point_class" jdbcType="VARCHAR" property="pointClass"/>
-                    <result column="point_icon" jdbcType="VARCHAR" property="pointIcon"/>
-                    <result column="point_status" jdbcType="INTEGER" property="pointStatus"/>
-                </association>
+                <result column="api_level" jdbcType="VARCHAR" property="apiLevel"/>
+                <result column="api_method" jdbcType="VARCHAR" property="apiMethod"/>
+                <result column="api_url" jdbcType="VARCHAR" property="apiUrl"/>
+                <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
+                <result column="menu_order" jdbcType="VARCHAR" property="menuOrder"/>
+                <result column="point_class" jdbcType="VARCHAR" property="pointClass"/>
+                <result column="point_icon" jdbcType="VARCHAR" property="pointIcon"/>
+                <result column="point_status" jdbcType="INTEGER" property="pointStatus"/>
             </collection>
         </collection>
         <collection property="roleIds" ofType="String">
@@ -240,7 +231,6 @@
             <if test="staffPhoto != null">
                 staff_photo = #{staffPhoto,jdbcType=LONGVARCHAR},
             </if>
-
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
@@ -282,7 +272,7 @@
         left join pe_permission_api ppa on pp.id=ppa.id
         left join pe_permission_menu ppm  on pp.id=ppm.id
         left join pe_permission_point ppp on pp.id=ppp.id
-        where company_id=#{companyId}
+        where pu.company_id=#{companyId}
     </select>
     <select id="selectAllPage" resultMap="BaseResultMap">
        select
@@ -301,6 +291,7 @@
         left join pe_permission_api ppa on pp.id=ppa.id
         left join pe_permission_menu ppm  on pp.id=ppm.id
         left join pe_permission_point ppp on pp.id=ppp.id
+        where pu.company_id=#{companyId}
         limit #{pageMin},#{pageMax}
     </select>
     <select id="selectByMobile" resultMap="BaseResultMap" parameterType="String">
@@ -323,6 +314,6 @@
         where pu.mobile=#{mobile}
     </select>
     <select id="count" resultType="int">
-        select COUNT(id) from pe_user
+        select COUNT(id) from pe_user where company_id=#{companyId}
     </select>
 </mapper>

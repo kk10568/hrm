@@ -5,12 +5,16 @@ import com.hrm.common.entity.PageResult;
 import com.hrm.common.entity.Result;
 import com.hrm.common.entity.ResultCode;
 import com.hrm.common.utils.IdWorker;
+import com.hrm.model.system.entity.Role;
 import com.hrm.model.system.entity.User;
+import com.hrm.model.system.entity.UserRole;
 import com.hrm.model.system.entity.result.ProfileResult;
+import com.hrm.system.service.impl.UserRoleServiceImpl;
 import com.hrm.system.service.impl.UserServiceImpl;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
@@ -36,12 +40,14 @@ public class UserController extends BaseController {
     private IdWorker idWorker;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private UserRoleServiceImpl userRoleService;
 
     /**
      * 分配角色
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Result login(@RequestBody Map<String,String> map) {
+    public Result login(@RequestBody Map<String, String> map) {
         String mobile = map.get("mobile");
         String password = map.get("password");
         System.out.println(mobile);
@@ -50,21 +56,21 @@ public class UserController extends BaseController {
         password = new Md5Hash(password, mobile, 3).toString();
         UsernamePasswordToken upToken = new UsernamePasswordToken(mobile, password);
         Subject subject = SecurityUtils.getSubject();
-        try {
+       //try {
             subject.login(upToken);
             String sessionId = subject.getSession().getId().toString();
             //前端设置的如果登录成功会将返回值作为token存入requestHeader
             //前端的代码规则为Authorization的头信息主体为Bearer +头信息
-            System.out.println("sessionId="+sessionId);
+            System.out.println("sessionId=" + sessionId);
             PrincipalCollection principals = subject.getPrincipals();
-            System.out.println("principals="+principals);
+            System.out.println("principals=" + principals);
             //2.获取安全数据
             ProfileResult result = (ProfileResult) principals.getPrimaryPrincipal();
-            System.out.println("getCompany="+result.getCompany());
+            System.out.println("getCompany=" + result.getCompany());
             return Result.SUCCESS(sessionId);
-        } catch (Exception e) {
+       /* } catch (Exception e) {
             return Result.FAIL("用户或密码错误");
-        }
+        }*/
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
@@ -74,17 +80,7 @@ public class UserController extends BaseController {
         //1.subject获取所有的安全数据集合
         PrincipalCollection principals = subject.getPrincipals();
         //2.获取安全数据
-        Object primaryPrincipal = principals.getPrimaryPrincipal();
-        System.out.println(primaryPrincipal);
-        ProfileResult profileResult = new ProfileResult();
-        ProfileResult primaryPrincipal1 = (ProfileResult) primaryPrincipal;
-       /* try {
-            BeanUtils.copyProperties(profileResult,primaryPrincipal);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }*/
+        ProfileResult primaryPrincipal = (ProfileResult) principals.getPrimaryPrincipal();
         return new Result(ResultCode.SUCCESS, primaryPrincipal);
     }
 
@@ -94,19 +90,24 @@ public class UserController extends BaseController {
         subject.logout();
         return new Result(ResultCode.SUCCESS);
     }
-
+    //给用户给予角色
     @RequestMapping(value = "/user/assignRoles", method = RequestMethod.PUT)
-    public Result save(@RequestParam("id") String id, @RequestParam("roleIds") List<String> roleIds) {
-       /* //1.获取被分配的用户id
+    public Result save(@RequestBody Map<String,Object> map) {
+        //1.获取被分配的用户id
         String userId = (String) map.get("id");
         //2.获取到角色的id列表
         List<String> roleIds = (List<String>) map.get("roleIds");
-        //3.调用service完成角色分配*/
-        System.out.println(id);
-        System.out.println(roleIds);
+        //3.调用service完成角色分配
+        //4.先删除用户的所有角色
+        userRoleService.deleteByUserId(userId);
+        //5.循环获取的id列表添加角色
+        for(String roleId:roleIds){
+            userRoleService.insert(new UserRole(roleId,userId));
+        }
         return new Result(ResultCode.SUCCESS);
     }
 
+    @RequiresPermissions(value = "API-USER-DELETE")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public Result deleteById(@PathVariable("id") String id) {
         int i = userService.deleteById(id);
@@ -145,7 +146,7 @@ public class UserController extends BaseController {
         List<User> users = userService.selectAllPage(companyId, (page - 1) * size, size);
         if (users != null || users.size() > 0) {
             PageResult<User> userPageResult = new PageResult<User>(users);
-            userPageResult.setTotal(Long.valueOf(userService.count()));
+            userPageResult.setTotal(Long.valueOf(userService.count(companyId)));
             return Result.SUCCESS(userPageResult);
         } else {
             return Result.FAIL();
